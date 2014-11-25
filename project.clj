@@ -1,10 +1,13 @@
 (defproject gallery "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "Example picture gallery app from Web development w/ Clojure book."
+  :url "https://github.com/bnadlerjr/gallery"
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [compojure "1.1.6"]
                  [hiccup "1.0.5"]
-                 [ring-server "0.3.1"]]
+                 [ring-server "0.3.1"]
+                 [lib-noir "0.7.6"]
+                 [org.clojure/java.jdbc "0.2.3"]
+                 [org.xerial/sqlite-jdbc "3.7.2"]]
   :plugins [[lein-ring "0.8.12"]]
   :ring {:handler gallery.handler/app
          :init gallery.handler/init
