@@ -2,6 +2,7 @@
 /lib
 /classes
 /checkouts
+/galleries
 pom.xml
 *.iml
 *.jar
