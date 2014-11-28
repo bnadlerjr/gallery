@@ -7,7 +7,7 @@
                  [ring-server "0.3.1"]
                  [lib-noir "0.7.6"]
                  [org.clojure/java.jdbc "0.2.3"]
-                 [org.xerial/sqlite-jdbc "3.7.2"]]
+                 [postgresql/postgresql "9.1-901.jdbc4"]]
   :plugins [[lein-ring "0.8.12"]]
   :ring {:handler gallery.handler/app
          :init gallery.handler/init

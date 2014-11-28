@@ -1,9 +1,10 @@
 (ns gallery.models.db
   (:require [clojure.java.jdbc :as sql]))
 
-(def db {:classname "org.sqlite.JDBC",
-         :subprotocol "sqlite",
-         :subname "db.sq3"})
+(def db {:subprotocol "postgresql",
+         :subname "//localhost:5432/gallery"
+         :user "numfar"
+         :password ""})
 
 (defmacro with-db [f & body]
   `(sql/with-connection ~db (~f ~@body)))
