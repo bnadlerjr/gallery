@@ -5,7 +5,8 @@
             [noir.session :as session]
             [gallery.routes.home :refer [home-routes]]
             [gallery.routes.auth :refer [auth-routes]]
-            [gallery.routes.upload :refer [upload-routes]]))
+            [gallery.routes.upload :refer [upload-routes]]
+            [gallery.routes.gallery :refer [gallery-routes]]))
 
 (defn init []
   (println "gallery is starting"))
@@ -23,5 +24,6 @@
            [auth-routes
             home-routes
             upload-routes
+            gallery-routes
             app-routes]
            :access-rules [user-page]))
