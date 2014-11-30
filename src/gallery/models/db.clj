@@ -27,6 +27,10 @@
       (throw
         (Exception. "you have already uploaded an image with the same name")))))
 
+(defn delete-image [userid name]
+  (with-db
+    sql/delete-rows :images ["userid=? and name=?" userid name]))
+
 (defn images-by-user [userid]
   (with-db
     sql/with-query-results
