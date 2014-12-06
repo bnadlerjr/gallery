@@ -9,7 +9,8 @@
                  [org.clojure/java.jdbc "0.2.3"]
                  [postgresql/postgresql "9.1-901.jdbc4"]
                  [com.taoensso/timbre "3.1.6"]
-                 [com.postspectacular/rotor "0.1.0"]]
+                 [com.postspectacular/rotor "0.1.0"]
+                 [selmer "0.7.7"]]
   :plugins [[lein-ring "0.8.12"]]
   :ring {:handler gallery.handler/app
          :init gallery.handler/init

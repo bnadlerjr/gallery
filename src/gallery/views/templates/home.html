@@ -1,0 +1,12 @@
+{% extends "gallery/views/templates/base.html" %}
+{% block content %}
+<div class="gallery">
+    {% for gallery in galleries %}
+    <div class="thumbnail">
+        <a href="{{context}}/img/gallery/{{gallery.userid}}">
+            <img src="{{context}}/img/{{gallery.userid}}/{{thumb-prefix}}{{gallery.name}}" />
+        </a>
+    </div>
+    {% end for %}
+</div>
+{% end block %}

@@ -1,10 +1,13 @@
 (ns gallery.views.layout
-  (:require [hiccup.page :refer [html5 include-css include-js]]
+  (:require [selmer.parser :as parser]
+            [hiccup.page :refer [html5 include-css include-js]]
             [hiccup.element :refer [link-to]]
             [hiccup.form :refer :all]
             [noir.session :as session]
             [ring.util.response :refer [content-type response]]
             [compojure.response :refer [Renderable]]))
+
+(def template-folder "gallery/views/templates/")
 
 (defn utf-8-response [html]
   (content-type (response html) "text/html; charset=utf-8"))
@@ -12,17 +15,14 @@
 (deftype RenderablePage [content]
   Renderable
   (render [this request]
-    (utf-8-response
-      (html5
-        [:head
-         [:title "Welcome to gallery"]
-         (include-css "/css/screen.css")
-         [:script {:type "test/javascript"}
-          (str "var context=\"" (:context request) "\";")]
-         (include-js "//code.jquery.com/jquery-2.0.2.min.js")
-         (include-js "/js/colors.js")
-         (include-js "/js/site.js")]
-        [:body content]))))
+    (->> (assoc params
+                :context (:context request)
+                :user (session/get :user))
+         (parser/render-file (str template-folder template))
+         utf-8-response)))
+
+(defn render [template & [params]]
+  (RenderablePage. template params))
 
 (defn make-menu [& items]
   [:div#usermenu (for [item items] [:div.menuitem item])])

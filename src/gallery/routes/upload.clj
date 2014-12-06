@@ -44,14 +44,8 @@
 (defn serve-file [user-id file-name]
   (file-response (str galleries File/separator user-id File/separator file-name)))
 
-(defn upload-page [info]
-  (layout/common
-    [:h2 "upload an image"]
-    [:p info]
-    (form-to {:enctype "multipart/form-data"}
-             [:post "/upload"]
-             (file-upload :file)
-             (submit-button "upload"))))
+(defn upload-page [params]
+  (layout/render "upload.html" params))
 
 (defn handle-upload [{:keys [filename] :as file}]
   (upload-page
@@ -62,8 +56,7 @@
         (noir.io/upload-file (gallery-path) file :create-path? true)
         (db/add-image (session/get :user) filename)
         (save-thumbnail file)
-        (image {:height "150px"}
-               (thumb-uri (session/get :user) filename))
+        {:image (thumb-uri (session/get :user) filename)}
         (catch Exception ex
           (str "error uploading file " (.getMessage ex)))))))
 
@@ -84,7 +77,7 @@
 
 (defroutes upload-routes
            (GET "/upload" [info]
-                (restricted (upload-page info)))
+                (restricted (upload-page {:info info})))
 
            (POST "/upload" [file]
                  (restricted (handle-upload file)))

@@ -1,8 +1,7 @@
 (ns gallery.routes.auth
   (:import (java.sql SQLException)
            (java.io File))
-  (:require [hiccup.form :refer :all]
-            [compojure.core :refer :all]
+  (:require [compojure.core :refer :all]
             [gallery.routes.home :refer :all]
             [gallery.views.layout :as layout]
             [noir.session :as session]
@@ -29,28 +28,11 @@
     :else
     "An error has occurred while processing the request."))
 
-(defn error-item [[error]]
-  [:div.error error])
-
-(defn control [id label field]
-  (list
-    (vali/on-error id error-item)
-    label field
-    [:br]))
-
 (defn registration-page [& [id]]
-  (layout/base
-    (form-to [:post "/register"]
-             (control :id
-                      (label "user-id" "user id")
-                      (text-field {:tabindex 1} "id" id))
-             (control :pass
-                      (label "pass" "password")
-                      (password-field {:tabindex 2} "pass"))
-             (control :pass1
-                      (label "pass1" "retype password")
-                      (password-field {:tabindex 3} "pass1"))
-             (submit-button {:tabindex 4} "create account"))))
+  (layout/render "registration.html"
+                 {:id id
+                  :id-error (first (vali/get-errors :id))
+                  :pass-error (first (vali/get-errors :pass))}))
 
 (defn create-gallery-path []
   (let [user-path (File. (gallery-path))]
