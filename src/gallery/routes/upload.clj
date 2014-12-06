@@ -15,7 +15,8 @@
             [clojure.java.io :as io]
             [ring.util.response :refer [file-response]]
             [gallery.models.db :as db]
-            [gallery.util :refer [galleries gallery-path thumb-prefix thumb-uri]]))
+            [gallery.util :refer [galleries gallery-path thumb-prefix thumb-uri]]
+            [taoensso.timbre :refer [error]]))
 
 (def thumb-size 150)
 
@@ -72,7 +73,9 @@
     (io/delete-file (str (gallery-path) File/separator name))
     (io/delete-file (str (gallery-path) File/separator thumb-prefix name))
     "ok"
-    (catch Exception ex (.getMessage ex))))
+    (catch Exception ex
+      (error ex "an error has occurred while deleting" name)
+      (.getMessage ex))))
 
 (defn delete-images [names]
   (let [userid (session/get :user)]
